@@ -8,7 +8,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class ChatWindow extends Stage {
+public class ChatWindow extends Stage implements OnInboxListener {
 
 	private TextArea txtArea;
 	private TextField txtField;
@@ -20,14 +20,26 @@ public class ChatWindow extends Stage {
 			Parent root = loader.load();
 			
 			txtArea = (TextArea) loader.getNamespace().get("txtArea");
+			txtArea.setEditable(false);
 			txtField = (TextField) loader.getNamespace().get("txtField");
 			enviar = (Button) loader.getNamespace().get("enviar");
 			
 			Scene scene = new Scene(root, 600, 400);
 			setScene(scene);
+			
+			init();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+	
+	public void init() {
+		TCPConnection.getInstace().setOnInboxListener(this);
+	}
+
+	@Override
+	public void onMessage(String msg) {
+		txtArea.appendText(msg+"\n");
 	}
 
 }
