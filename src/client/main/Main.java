@@ -1,5 +1,6 @@
-package client;
+package client.main;
 
+import client.view.ConnectionWindow;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

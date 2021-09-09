@@ -10,6 +10,7 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class Main {
 
@@ -31,7 +32,11 @@ public class Main {
 
 			while(true) {
 				String line = scanner.nextLine();
-				writer.write(line+"\n");
+				
+				Mss m = new Mss(UUID.randomUUID().toString(),line);
+				Gson gson = new Gson();
+				String json = gson.toJson(m);
+				writer.write(json+"\n");
 				writer.flush();
 			}
 			

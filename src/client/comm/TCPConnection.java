@@ -1,4 +1,4 @@
-package client;
+package client.comm;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -9,6 +9,10 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
+import client.event.OnConnectionListener;
+import client.event.OnInboxListener;
+import client.model.Mss;
 
 public class TCPConnection {
 
@@ -51,6 +55,9 @@ public class TCPConnection {
 				
 				while(true) {
 					String line = breader.readLine();
+					
+					Gson gson = new Gson();
+					Mss m = new gson.FromJson(line, Mss.class);
 					onInboxListener.onMessage(line);
 				}
 				

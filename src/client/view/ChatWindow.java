@@ -1,5 +1,8 @@
-package client;
+package client.view;
 
+import client.comm.TCPConnection;
+import client.event.OnInboxListener;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -39,7 +42,9 @@ public class ChatWindow extends Stage implements OnInboxListener {
 
 	@Override
 	public void onMessage(String msg) {
-		txtArea.appendText(msg+"\n");
+		Platform.runLater(()->{
+			txtArea.appendText(msg+"\n");
+		});
 	}
 
 }

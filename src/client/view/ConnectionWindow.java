@@ -1,17 +1,19 @@
-package client;
+package client.view;
 
-import javafx.application.Platform;
+import client.control.ConnectionController;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class ConnectionWindow extends Stage implements OnConnectionListener{
+public class ConnectionWindow extends Stage{
 
 	private TextField ipTF;
 	private TextField portTF;
 	private Button connectBtn;
+	
+	private ConnectionController conntroller;
 	
 	public ConnectionWindow() {
 		VBox parent = new VBox();
@@ -28,21 +30,27 @@ public class ConnectionWindow extends Stage implements OnConnectionListener{
 		Scene scene = new Scene(parent,600,400);
 		setScene(scene);
 		
-		connectBtn.setOnAction(event->{
-			TCPConnection con = TCPConnection.getInstace();
-			con.setConnectionListener(this);
-			con.connect(ipTF.getText(), Integer.parseInt(portTF.getText()));
-		});
+		conntroller = new ConnectionController(this);
 	}
-	@Override
-	public void onConnection(boolean success) {
-		Platform.runLater(()->{
-			if(success) {
-				ChatWindow chat = new ChatWindow();
-				chat.show();
-			}else {
-				System.out.println("fallo la coneccion");
-			}
-		});
+
+	//getters del view
+	
+	public TextField getIpTF() {
+		return ipTF;
 	}
+
+	public TextField getPortTF() {
+		return portTF;
+	}
+
+	public Button getConnectBtn() {
+		return connectBtn;
+	}
+
+	public void openChatWindow() {
+		this.close();
+		ChatWindow chat = new ChatWindow();
+		chat.show();	
+	}
+	
 }
