@@ -6,6 +6,15 @@ public class Mss {
 	private String id;
 	private String body;
 
+	public Mss() {
+	
+	}
+	
+	public Mss(String type, String body) {
+		this.type = type;
+		this.body = body;
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -28,17 +37,6 @@ public class Mss {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-	
-	public Mss() {
-		
-	}
-
-	public Mss(String type, String id, String body) {
-		super();
-		this.type = type;
-		this.id = id;
-		this.body = body;
 	}
 	
 }

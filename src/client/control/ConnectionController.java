@@ -7,6 +7,7 @@ import javafx.application.Platform;
 
 public class ConnectionController implements OnConnectionListener {
 
+	
 	private ConnectionWindow view;
 	
 	public ConnectionController(ConnectionWindow view) {
@@ -15,22 +16,28 @@ public class ConnectionController implements OnConnectionListener {
 	
 	public void init() {
 		view.getConnectBtn().setOnAction(event->{
-			TCPConnection con = TCPConnection.getInstace();
+			TCPConnection con = TCPConnection.getInstance();
 			con.setConnectionListener(this);
 			con.connect(view.getIpTF().getText(), Integer.parseInt(view.getPortTF().getText()));
-		});	
+			
+		});
+		
+	
 	}
 	
 	
 	@Override
 	public void onConnection(boolean success) {
+		//Obligar a correr un proceso en el hilo principal MAIN UI
 		Platform.runLater(()->{
 			if(success) {
 				view.openChatWindow();
 			}else {
-				System.out.println("fallo la coneccion");
+				System.out.println("Falló la conexión");
 			}
 		});
+		
+		
 	}
+	
 }
-

@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TextArea fx:id="txtArea" layoutX="14.0" layoutY="38.0" prefHeight="291.0" prefWidth="568.0" />
-      <TextField fx:id="txtFlield" layoutX="28.0" layoutY="343.0" prefHeight="25.0" prefWidth="485.0" promptText="escriba su mensaje aqui" />
-      <Label layoutX="286.0" layoutY="14.0" text="Ventana de chat" />
-      <Button fx:id="enviar" layoutX="530.0" layoutY="343.0" mnemonicParsing="false" text="Enviar" />
+      <TextArea fx:id="mensajesTA" layoutX="13.0" layoutY="43.0" prefHeight="266.0" prefWidth="574.0" />
+      <Label layoutX="256.0" layoutY="20.0" text="Ventana de chat" />
+      <TextField fx:id="mensajeTF" layoutX="12.0" layoutY="324.0" prefHeight="27.0" prefWidth="510.0" promptText="Escriba aquí su mensaje" />
+      <Button fx:id="enviarBtn" layoutX="531.0" layoutY="324.0" mnemonicParsing="false" text="Enviar" />
    </children>
 </AnchorPane>

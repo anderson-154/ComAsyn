@@ -1,8 +1,6 @@
 package client.view;
 
-import client.comm.TCPConnection;
-import client.event.OnInboxListener;
-import javafx.application.Platform;
+import client.control.ChatController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,40 +9,62 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class ChatWindow extends Stage implements OnInboxListener {
+public class ChatWindow extends Stage  {
 
-	private TextArea txtArea;
-	private TextField txtField;
-	private Button enviar;
+	private TextArea mensajesTA;
+	private TextField mensajeTF;
+	private Button enviarBtn;
+	
+	private ChatController controller;
 
 	public ChatWindow() {
+
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("ChatWindow.fxml"));
 			Parent root = loader.load();
-			
-			txtArea = (TextArea) loader.getNamespace().get("txtArea");
-			txtArea.setEditable(false);
-			txtField = (TextField) loader.getNamespace().get("txtField");
-			enviar = (Button) loader.getNamespace().get("enviar");
-			
+
+			mensajesTA = (TextArea) loader.getNamespace().get("mensajesTA");
+			mensajesTA.setEditable(false);
+			mensajeTF = (TextField) loader.getNamespace().get("mensajeTF");
+			enviarBtn = (Button) loader.getNamespace().get("enviarBtn");
+
 			Scene scene = new Scene(root, 600, 400);
 			setScene(scene);
+
+
+			controller = new ChatController(this);
 			
-			init();
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-	}
-	
-	public void init() {
-		TCPConnection.getInstace().setOnInboxListener(this);
+
 	}
 
-	@Override
-	public void onMessage(String msg) {
-		Platform.runLater(()->{
-			txtArea.appendText(msg+"\n");
-		});
+	public TextArea getMensajesTA() {
+		return mensajesTA;
 	}
+
+	public TextField getMensajeTF() {
+		return mensajeTF;
+	}
+
+	public Button getEnviarBtn() {
+		return enviarBtn;
+	}
+
+	public void addTextToArea(String text) {
+		mensajesTA.appendText(text);
+		//...
+		//...
+		//...
+		//...
+	}
+	
+	
+
+
+
+	
 
 }

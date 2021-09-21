@@ -10,57 +10,66 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import com.google.gson.Gson;
+
 import client.event.OnConnectionListener;
 import client.event.OnInboxListener;
 import client.model.Mss;
 
 public class TCPConnection {
 
-	private static TCPConnection instace;
+	private static TCPConnection instance = null;
 
 	private TCPConnection() {
-
 	}
 
-	public static synchronized TCPConnection getInstace() {
-		if (instace == null) {
-			instace = new TCPConnection();
+	public static synchronized TCPConnection getInstance() {
+
+		if (instance == null) {
+			instance = new TCPConnection();
 		}
-		return instace;
+		return instance;
 	}
 
-	// clase normal
+	// Clase normal
 	private Socket socket;
 	private BufferedReader breader;
 	private BufferedWriter bwriter;
-	
-	//listeners
-	private OnInboxListener onInboxListener = null;
+
+	// Listeners
 	private OnConnectionListener onConnectionListener = null;
-	
-	
+	private OnInboxListener onInboxListener = null;
+
 	public void connect(String ip, int port) {
-		new Thread(()->{
+
+		
+		
+		
+		new Thread(() -> {
 			try {
-				socket = new Socket(ip,port);
+				socket = new Socket(ip, port);
 				onConnectionListener.onConnection(true);
-				
-				//definir el lector y el escritor
-				
+
+				// Definir el lector y escritor
 				InputStream is = socket.getInputStream();
 				breader = new BufferedReader(new InputStreamReader(is));
-				
+
 				OutputStream os = socket.getOutputStream();
 				bwriter = new BufferedWriter(new OutputStreamWriter(os));
-				
-				while(true) {
+
+				while (true) {
+
 					String line = breader.readLine();
 					
+					
+					//Deserializar el mensaje
 					Gson gson = new Gson();
-					Mss m = new gson.FromJson(line, Mss.class);
-					onInboxListener.onMessage(line);
+					Mss m = gson.fromJson(line, Mss.class);
+					
+					onInboxListener.onMessage(m.getBody());
+
 				}
-				
+
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 				onConnectionListener.onConnection(false);
@@ -68,20 +77,24 @@ public class TCPConnection {
 				e.printStackTrace();
 				onConnectionListener.onConnection(false);
 			}
+
 		}).start();
+
 	}
-	
-	public void sendeMessage(String msg) {
-		new Thread(()-> {
+
+	public void sendMessage(String msg) {
+		new Thread(() -> {
 			try {
-				bwriter.write(msg+"\n");
+				bwriter.write(msg + "\n");
 				bwriter.flush();
-			}catch(IOException ex) {
+			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
 		}).start();
 	}
-	//metodos de suscripcion
+
+	// Metodos de suscripcion
+
 	public void setConnectionListener(OnConnectionListener onConnectionListener) {
 		this.onConnectionListener = onConnectionListener;
 	}
@@ -90,5 +103,4 @@ public class TCPConnection {
 		this.onInboxListener = onInboxListener;
 	}
 
-	
 }
